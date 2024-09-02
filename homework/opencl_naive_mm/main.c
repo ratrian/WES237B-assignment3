@@ -94,11 +94,11 @@ void OpenCLMatrixMultiply(Matrix *input0, Matrix *input1, Matrix *result)
     CHECK_ERR(err, "clSetKernelArg 8");
 
     // @@ define local and global work sizes
-    size_t global_item_size = (result->shape[0]*result->shape[1]);
-    size_t local_item_size = 1;
+    size_t global_item_size[2] = {result->shape[0], result->shape[1]};
+    size_t local_item_size[2] = {1, 1};
 
     //@@ Launch the GPU Kernel here
-    err = clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &global_item_size, &local_item_size, 0, NULL, NULL);
+    err = clEnqueueNDRangeKernel(queue, kernel, 2, NULL, &global_item_size, &local_item_size, 0, NULL, NULL);
     clFinish(queue);
 
     //@@ Copy the GPU memory back to the CPU here
