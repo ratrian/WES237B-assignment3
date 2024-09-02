@@ -7,8 +7,10 @@ __kernel void matrixMultiply(
   //@@ Insert code to implement matrix multiplication here
   unsigned int row = get_global_id(0);
   unsigned int col = get_global_id(1);
+  float sum = 0;
   for (unsigned int i = 0; i < numAColumns; i++)
   {
-    C[row * numCColumns + col] += (A[row * numAColumns + i] * B[i * numBColumns + col]);
+    sum += (A[row * numAColumns + i] * B[i * numBColumns + col]);
   }
+  C[row * numCColumns + col] = sum;
 }
